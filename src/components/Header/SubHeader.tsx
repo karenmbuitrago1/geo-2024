@@ -4,7 +4,7 @@ import { getTodayFormattedDate } from '../../utils/date';
 
 export const SubHeader = () => (
   <div className='container mx-auto flex flex-col p-2 md:p-4'>
-    <div className='flex flex-col md:flex-row h-10 items-center justify-between py-1'>
+    <div className='flex flex-col md:flex-row items-center justify-between py-2'>
       <span className='text-gray-500'>{getTodayFormattedDate()}</span>
       <div className='flex gap-2 mt-2 md:mt-0'>
         <button className='bg-primary px-2 text-white'>EN</button>

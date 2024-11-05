@@ -28,7 +28,7 @@ export const HeroSlider = () => {
             imageMobile: `${import.meta.env.VITE_API_IMAGES}${
               slide.IMAGE_MOBILE
             }`,
-          })),
+          }))
         );
       }
     };
@@ -45,26 +45,27 @@ export const HeroSlider = () => {
   }, [slides.length]);
 
   return (
-    <section className="relative h-96 overflow-hidden bg-gray-800 text-white">
+    <section className='relative h-96 overflow-hidden bg-gray-800 text-white'>
       {slides.map((slide, index) => (
         <div
           key={index}
           className={`absolute inset-0 transition-opacity duration-500 ${
             index === currentSlide ? 'opacity-100' : 'opacity-0'
-          }`}>
+          }`}
+        >
           <img
             src={slide.image}
             alt={slide.title}
-            className="absolute inset-0 h-full w-full object-cover"
+            className='absolute inset-0 h-full w-full object-cover'
           />
-          <div className="absolute inset-0 bg-black bg-opacity-50"></div>
-          <div className="container relative z-10 mx-auto flex h-full flex-col justify-center">
-            <h1 className="mb-4 text-4xl font-bold">{slide.title}</h1>
-            <p className="max-w-2xl">{slide.description}</p>
+          <div className='absolute inset-0 bg-black bg-opacity-50'></div>
+          <div className='container relative z-10 mx-auto flex h-full flex-col justify-center px-4 md:px-0'>
+            <h1 className='mb-4 text-4xl font-bold'>{slide.title}</h1>
+            <p className='max-w-2xl'>{slide.description}</p>
           </div>
         </div>
       ))}
-      <div className="absolute bottom-4 left-1/2 z-10 flex -translate-x-1/2 transform space-x-2">
+      <div className='absolute bottom-4 left-1/2 z-10 flex -translate-x-1/2 transform space-x-2'>
         {slides.map((_, index) => (
           <button
             key={index}

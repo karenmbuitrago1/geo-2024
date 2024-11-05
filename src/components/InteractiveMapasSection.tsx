@@ -11,13 +11,15 @@ type InteractiveMapSectionProps = {
   descriptionEn: string;
 };
 
-const ITEMS_PER_SLIDE = 4;
+const ITEMS_PER_SLIDE_DEFAULT = 4;
+const ITEMS_PER_SLIDE_MOBILE = 1;
 
 export const InteractiveMapSection = () => {
   const [news, setNews] = useState<InteractiveMapSectionProps[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [itemsPerSlide, setItemsPerSlide] = useState(ITEMS_PER_SLIDE_DEFAULT);
 
-  const totalSlides = Math.ceil(news.length / ITEMS_PER_SLIDE);
+  const totalSlides = Math.ceil(news.length / itemsPerSlide);
 
   useEffect(() => {
     const fetchNews = async () => {
@@ -49,6 +51,22 @@ export const InteractiveMapSection = () => {
     return () => clearInterval(timer);
   }, [news.length, totalSlides]);
 
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        // Cambia el tamaño según tu diseño
+        setItemsPerSlide(ITEMS_PER_SLIDE_MOBILE);
+      } else {
+        setItemsPerSlide(ITEMS_PER_SLIDE_DEFAULT);
+      }
+    };
+
+    handleResize(); // Establecer el tamaño inicial
+    window.addEventListener('resize', handleResize); // Escuchar cambios de tamaño
+
+    return () => window.removeEventListener('resize', handleResize); // Limpiar el listener
+  }, []);
+
   const handleClick = (urlVisor: string) => {
     window.open(urlVisor, '_blank');
   };
@@ -73,13 +91,15 @@ export const InteractiveMapSection = () => {
         <div className='relative overflow-x-auto'>
           <div
             className='flex transition-transform duration-500 ease-in-out'
-            style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+            style={{
+              transform: `translateX(-${currentIndex * (100 / itemsPerSlide)}%)`,
+            }}
           >
             {news.map((item, index) => (
               <div
                 key={index}
                 onClick={() => handleClick(item.urlVisor)}
-                className='flex-shrink-0 w-1/2 sm:w-1/2 md:w-1/4 lg:w-1/4 px-2 cursor-pointer'
+                className={`flex-shrink-0 ${itemsPerSlide === ITEMS_PER_SLIDE_DEFAULT ? 'w-1/4' : 'w-full'} px-2 cursor-pointer`} // Ancho fijo en desktop, ancho completo en móvil
               >
                 <div className='h-full overflow-hidden rounded-lg bg-white shadow-md transition-transform duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg'>
                   <div className='relative'>
@@ -105,9 +125,7 @@ export const InteractiveMapSection = () => {
             <button
               key={index}
               onClick={() => setCurrentIndex(index)}
-              className={`h-3 w-3 rounded-full ${
-                index === currentIndex ? 'bg-primary' : 'bg-gray-300'
-              }`}
+              className={`h-3 w-3 rounded-full ${index === currentIndex ? 'bg-primary' : 'bg-gray-300'}`}
             />
           ))}
         </div>

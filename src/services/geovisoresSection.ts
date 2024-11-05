@@ -13,3 +13,17 @@ export const geovisoresService = {
     }
   },
 };
+
+export const geovisoresServiceSecond = {
+  getGeovisoresSecond: async () => {
+    try {
+      const response = await api.get(
+        '/laboratorio/serviciosjson/geoportal2019/geoportal_nivel04.php?nivel_geoportal=1'
+      );
+      return response.data?.resultado || [];
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  },
+};
