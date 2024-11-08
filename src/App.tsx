@@ -1,26 +1,48 @@
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Footer } from './components/Footer';
-import { HeroSlider } from './components/HeroSlider';
-import { NewsSection } from './components/NewsSection';
-import { AboutSection } from './components/AboutSection';
 import { HeaderMain } from './components/Header/HeaderMain';
-import { GeovisorsSection } from './components/GeovisorsSection';
-// import { MobileAppsSection } from './components/mobileAppsSection';
-import { GeospatialServices } from './components/GeospatialServices';
-import { InteractiveMapSection } from './components/InteractiveMapasSection';
+import { HeroSlider } from './components/Home/HeroSlider';
+import { NewsSection } from './components/Home/NewsSection';
+import { AboutSection } from './components/Home/AboutSection';
+import { GeovisorsSection } from './components/Home/GeovisorsSection';
+import { GeospatialServices } from './components/Home/GeospatialServices';
+import { InteractiveMapSection } from './components/Home/InteractiveMapasSection';
+
+import { GeovisoresPage } from './components/Pages/GeovisoresPage';
+
+const HomePage = () => (
+  <div>
+    <HeroSlider />
+    <NewsSection />
+    <GeovisorsSection />
+    <GeospatialServices />
+    <InteractiveMapSection />
+    <AboutSection />
+  </div>
+);
 
 const App = () => {
   return (
-    <div className='min-h-screen'>
-      <HeaderMain />
-      <HeroSlider />
-      <NewsSection />
-      <GeovisorsSection />
-      <GeospatialServices />
-      <InteractiveMapSection />
-      {/* <MobileAppsSection /> */}
-      <AboutSection />
-      <Footer />
-    </div>
+    <Router>
+      <div className='min-h-screen flex flex-col'>
+        <HeaderMain />
+
+        <main className='flex-grow'>
+          <Routes>
+            <Route
+              path='/'
+              element={<HomePage />}
+            />
+            <Route
+              path='/geovisores'
+              element={<GeovisoresPage />}
+            />
+          </Routes>
+        </main>
+
+        <Footer />
+      </div>
+    </Router>
   );
 };
 

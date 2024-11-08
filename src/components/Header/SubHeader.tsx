@@ -20,7 +20,14 @@ export const SubHeader = () => (
         >
           <LogoDane />
         </a>
-        <LogoGeoportal />
+        <a
+          href='/'
+          target='_blank'
+          rel='noopener noreferrer'
+          className='h-10'
+        >
+          <LogoGeoportal />
+        </a>
       </div>
       <div className='mt-3 md:mt-0 md:flex md:w-1/3 items-center'>
         <div className='flex flex-col w-full'>

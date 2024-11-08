@@ -1,12 +1,23 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export const MenuOptions = () => {
   const [option, setOption] = useState('home');
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
 
-  const handleClick = (selectedOption: string) => {
+  const handleClick = (selectedOption: string, targetId: string) => {
     setOption(selectedOption);
     setIsOpen(false);
+
+    navigate('/', { replace: true });
+
+    setTimeout(() => {
+      const targetElement = document.getElementById(targetId);
+      if (targetElement) {
+        targetElement.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 100);
   };
 
   const toggleMenu = () => setIsOpen(!isOpen);
@@ -33,34 +44,30 @@ export const MenuOptions = () => {
           isOpen ? 'block' : 'hidden'
         } md:flex w-full flex-col md:flex-row bg-white absolute md:static top-8 right-0 md:top-auto md:right-auto z-20 shadow-lg md:shadow-none`}
       >
-        <a
-          href='#home'
+        <button
           className={getOptionClass('home')}
-          onClick={() => handleClick('home')}
+          onClick={() => handleClick('home', 'home')}
         >
           Inicio
-        </a>
-        <a
-          href='#geovisors'
-          className={getOptionClass('geovisors')}
-          onClick={() => handleClick('geovisors')}
+        </button>
+        <button
+          className={getOptionClass('home-geovisores')}
+          onClick={() => handleClick('home-geovisores', 'home-geovisores')}
         >
           Geovisores
-        </a>
-        <a
-          href='#services'
-          className={getOptionClass('services')}
-          onClick={() => handleClick('services')}
+        </button>
+        <button
+          className={getOptionClass('home-servicios')}
+          onClick={() => handleClick('home-servicios', 'home-servicios')}
         >
           Servicios
-        </a>
-        <a
-          href='#about'
-          className={getOptionClass('about')}
-          onClick={() => handleClick('about')}
+        </button>
+        <button
+          className={getOptionClass('home-acerca')}
+          onClick={() => handleClick('home-acerca', 'home-acerca')}
         >
           Acerca de
-        </a>
+        </button>
       </div>
     </div>
   );
