@@ -27,11 +27,10 @@ export const AppsSection = () => {
         setApps(
           response.map((slide: any) => ({
             title: slide.TITULO,
-            description: slide.TEXTO,
-            urlVideo: slide.URL_PIEZA,
+            description: slide.TEXT,
             titleEn: slide.TITULO_INGLES,
             descriptionEn: slide.TEXTO_INGLES,
-            image: `${import.meta.env.VITE_API_IMAGES}${slide.MEDIA}`,
+            image: `${import.meta.env.VITE_API_IMAGES}${slide.IMAGE}`,
             urlVisor: `${import.meta.env.VITE_API_IMAGES}${slide.URL}`,
           }))
         );
@@ -97,9 +96,9 @@ export const AppsSection = () => {
               <div className='h-full overflow-hidden rounded-lg bg-white shadow-md'>
                 <div className='relative'>
                   <img
-                    src={`${item.image}-desktop.webp`}
+                    src={`${item.image}.webp`}
                     alt={item.title}
-                    className='h-48 w-full object-cover'
+                    className='h-64 w-full object-cover'
                   />
                 </div>
                 <div className='flex h-[calc(100%-12rem)] flex-col p-4'>
