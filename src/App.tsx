@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Footer } from './components/Footer';
 import { HeaderMain } from './components/Header/HeaderMain';
 import { HeroSlider } from './components/Home/HeroSlider';
+import { AppsSection } from './components/Home/AppsSection';
 import { NewsSection } from './components/Home/NewsSection';
 import { AboutSection } from './components/Home/AboutSection';
 import { GeovisorsSection } from './components/Home/GeovisorsSection';
@@ -17,6 +18,7 @@ const HomePage = () => (
     <GeovisorsSection />
     <GeospatialServices />
     <InteractiveMapSection />
+    <AppsSection />
     <AboutSection />
   </div>
 );

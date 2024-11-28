@@ -29,7 +29,12 @@ export const SubHeader = () => (
           <LogoGeoportal />
         </a>
       </div>
-      <div className='mt-3 md:mt-0 md:flex md:w-1/3 items-center'>
+      <script
+        async
+        src='https://cse.google.com/cse.js?cx=a42069d8c5bdc40e1'
+      ></script>
+      <div className='gcse-search '></div>
+      {/* <div className='mt-3 md:mt-0 md:flex md:w-1/3 items-center'>
         <div className='flex flex-col w-full'>
           <span>Resultados de la búsqueda:</span>
           <input
@@ -38,7 +43,7 @@ export const SubHeader = () => (
             className='rounded border py-1 pl-2 pr-8 mt-1'
           />
         </div>
-      </div>
+      </div> */}
     </div>
     <div className='flex h-10' />
   </div>
