@@ -21,7 +21,7 @@ export const SubHeader = () => {
       <div className='flex flex-col md:flex-row items-center justify-between py-2'>
         <span className='text-gray-500'>{getTodayFormattedDate()}</span>
         <div className='flex gap-2 mt-2 md:mt-0'>
-          <button className='bg-primary px-2 text-white'>EN</button>
+          {/* <button className='bg-primary px-2 text-white'>EN</button> */}
           <button className='bg-primary px-2 text-white'>ES</button>
         </div>
       </div>
@@ -47,7 +47,6 @@ export const SubHeader = () => {
           <div className='gcse-search'></div>
         </div>
       </div>
-      <div className='flex h-10' />
     </div>
   );
 };

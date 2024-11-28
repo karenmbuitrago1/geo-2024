@@ -73,8 +73,8 @@ export const AppsSection = () => {
         Aplicaciones Móviles
       </h2>
       <p className='mx-auto mb-8 max-w-2xl text-center'>
-        Descargue ahora las aplicaciones móviles disponibles para acceder a las
-        experiencias interactivas.
+        Escanee el código QR de las aplicaciones multiplataforma y descargue las
+        aplicaciones para Android.
       </p>
       <div className='relative overflow-hidden'>
         <div

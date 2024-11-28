@@ -77,7 +77,7 @@ export const NewsSection = () => {
       <h2 className='mb-8 text-center text-3xl font-bold'>Novedades</h2>
       <p className='mx-auto mb-8 max-w-2xl text-center'>
         Descubra las últimas publicaciones del Geoportal DANE y manténgase
-        actualizado con las novedades estadísticas deL territorio colombiano.
+        actualizado con las novedades estadísticas del territorio colombiano.
       </p>
       <div className='relative overflow-hidden'>
         <div
