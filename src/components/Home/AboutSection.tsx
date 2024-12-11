@@ -1,13 +1,16 @@
-import { FC, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { aboutSectionService } from '../../services/aboutSection.service';
 
 interface AboutSectionItemProps {
   icono: string;
   title: string;
+  titleEn: string;
   urlVisor: string;
+  description: string;
+  descriptionEn: string;
 }
 
-export const AboutSection: FC = () => {
+export const AboutSection = ({ language }: { language: 'ES' | 'EN' }) => {
   const [aboutItem, setAboutItem] = useState<AboutSectionItemProps[]>([]);
 
   useEffect(() => {
@@ -17,7 +20,9 @@ export const AboutSection: FC = () => {
         setAboutItem(
           response.map((slide: any) => ({
             title: slide.NIVEL_02,
+            titleEn: slide.NIVEL_02_INGLES,
             description: slide.TEXTO,
+            descriptionEn: slide.TEXTO_INGLES,
             icono: slide.ICONO,
             image: `${import.meta.env.VITE_API_IMAGES}${slide.MEDIA}`,
             urlVisor: `${import.meta.env.VITE_API_IMAGES}${slide.URL}`,
@@ -40,13 +45,12 @@ export const AboutSection: FC = () => {
     >
       <div className='mx-auto max-w-7xl'>
         <h2 className='mb-2 text-center text-4xl font-bold'>
-          Acerca del Geoportal
+          {language === 'ES' ? 'Acerca del Geoportal' : 'About Geoportal'}
         </h2>
         <p className='mb-12 text-center text-gray-600'>
-          En esta sección, puede acceder a información esencial sobre cómo
-          comunicarse con nosotros, así como a nuestras políticas legales y
-          términos de uso, asegurando que tenga toda la información que necesita
-          para utilizar el Geoportal de manera efectiva.
+          {language === 'ES'
+            ? 'En esta sección, puede acceder a información esencial sobre cómo comunicarse con nosotros, así como a nuestras políticas legales y términos de uso, asegurando que tenga toda la información que necesita para utilizar el Geoportal de manera efectiva.'
+            : 'In this section, you can access essential information on how to contact us, as well as our legal policies and terms of use, ensuring that you have all the information you need to use the Geoportal effectively.'}
         </p>
 
         <div className='grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3'>
@@ -63,7 +67,7 @@ export const AboutSection: FC = () => {
                 }}
               ></span>
               <h3 className='ml-4 text-lg font-semibold text-gray-800'>
-                {aboutItem.title}
+                {language === 'ES' ? aboutItem.title : aboutItem.titleEn}
               </h3>
             </div>
           ))}

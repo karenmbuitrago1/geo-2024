@@ -8,12 +8,13 @@ type New = {
   urlVisor: string;
   urlVideo: string;
   description: string;
+  descriptionEn: string;
 };
 
 const ITEMS_PER_SLIDE_DEFAULT = 4;
 const ITEMS_PER_SLIDE_MOBILE = 1;
 
-export const NewsSection = () => {
+export const NewsSection = ({ language }: { language: 'ES' | 'EN' }) => {
   const [news, setNews] = useState<New[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [itemsPerSlide, setItemsPerSlide] = useState(ITEMS_PER_SLIDE_DEFAULT);
@@ -74,10 +75,13 @@ export const NewsSection = () => {
 
   return (
     <section className='container mx-auto py-12'>
-      <h2 className='mb-8 text-center text-3xl font-bold'>Novedades</h2>
+      <h2 className='mb-8 text-center text-3xl font-bold'>
+        {language === 'ES' ? 'Novedades' : 'News'}
+      </h2>
       <p className='mx-auto mb-8 max-w-2xl text-center'>
-        Descubra las últimas publicaciones del Geoportal DANE y manténgase
-        actualizado con las novedades estadísticas del territorio colombiano.
+        {language === 'ES'
+          ? 'Descubra las últimas publicaciones del Geoportal DANE y manténgase actualizado con las novedades estadísticas del territorio colombiano.'
+          : 'Discover the latest publications from the DANE Geoportal and stay updated with the statistical news of the Colombian territory.'}
       </p>
       <div className='relative overflow-hidden'>
         <div
@@ -104,9 +108,11 @@ export const NewsSection = () => {
                   />
                 </div>
                 <div className='flex h-[calc(100%-12rem)] flex-col p-4'>
-                  <h3 className='mb-2 text-lg font-bold'>{item.title}</h3>
+                  <h3 className='mb-2 text-lg font-bold'>
+                    {language === 'ES' ? item.title : item.titleEn}
+                  </h3>
                   <p className='mb-4 flex-grow text-sm text-gray-600'>
-                    {item.description}
+                    {language === 'ES' ? item.description : item.descriptionEn}
                   </p>
                   <div className='mt-auto flex items-center space-x-4'>
                     <button

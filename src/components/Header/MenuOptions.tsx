@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-export const MenuOptions = () => {
+export const MenuOptions = ({ language }: { language: 'ES' | 'EN' }) => {
   const [option, setOption] = useState('home');
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
@@ -36,7 +36,7 @@ export const MenuOptions = () => {
         onClick={toggleMenu}
       >
         <span className='DANE__Geovisor__icon__List' />
-        Menú
+        {language === 'ES' ? 'Menú' : 'Menu'}
       </button>
 
       <div
@@ -48,25 +48,25 @@ export const MenuOptions = () => {
           className={getOptionClass('home')}
           onClick={() => handleClick('home', 'home')}
         >
-          Inicio
+          {language === 'ES' ? 'Inicio' : 'Home'}
         </button>
         <button
           className={getOptionClass('home-geovisores')}
           onClick={() => handleClick('home-geovisores', 'home-geovisores')}
         >
-          Geovisores
+          {language === 'ES' ? 'Geovisores' : 'Geoviewers'}
         </button>
         <button
           className={getOptionClass('home-servicios')}
           onClick={() => handleClick('home-servicios', 'home-servicios')}
         >
-          Servicios
+          {language === 'ES' ? 'Servicios' : 'Services'}
         </button>
         <button
           className={getOptionClass('home-acerca')}
           onClick={() => handleClick('home-acerca', 'home-acerca')}
         >
-          Acerca de
+          {language === 'ES' ? 'Acerca de' : 'About Geoportal'}
         </button>
       </div>
     </div>

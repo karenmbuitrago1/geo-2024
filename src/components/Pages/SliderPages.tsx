@@ -11,12 +11,10 @@ const SliderTop = () => {
           className='block'
         >
           <picture>
-            {/* Imagen para pantallas pequeñas */}
             <source
               srcSet={imageUrlMobile}
               media='(max-width: 768px)'
             />
-            {/* Imagen para pantallas grandes */}
             <img
               width='100'
               height='60'
@@ -29,8 +27,6 @@ const SliderTop = () => {
           </picture>
         </a>
       </div>
-
-      {/* Caja de texto sobre la imagen */}
       <div
         className='absolute top-0 left-0 w-full h-full flex flex-col justify-center items-start text-white bg-black bg-opacity-50 p-8'
         itemScope
@@ -47,8 +43,6 @@ const SliderTop = () => {
             Geovisores
           </h1>
         </div>
-
-        {/* Texto descriptivo solo en pantallas medianas y grandes */}
         <p className='w-[60%] text-base text-left hidden md:block'>
           Los Geovisores son herramientas de fácil uso y acceso, que permiten la
           consulta, visualización, análisis y descarga de información

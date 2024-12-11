@@ -8,12 +8,13 @@ type New = {
   urlVisor: string;
   urlVideo: string;
   description: string;
+  descriptionEn: string;
 };
 
 const ITEMS_PER_SLIDE_DEFAULT = 4;
 const ITEMS_PER_SLIDE_MOBILE = 1;
 
-export const AppsSection = () => {
+export const AppsSection = ({ language }: { language: 'ES' | 'EN' }) => {
   const [apps, setApps] = useState<New[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [itemsPerSlide, setItemsPerSlide] = useState(ITEMS_PER_SLIDE_DEFAULT);
@@ -29,7 +30,7 @@ export const AppsSection = () => {
             title: slide.TITULO,
             description: slide.TEXT,
             titleEn: slide.TITULO_INGLES,
-            descriptionEn: slide.TEXTO_INGLES,
+            descriptionEn: slide.TEXT_INGLES,
             image: `${import.meta.env.VITE_API_IMAGES}${slide.IMAGE}`,
             urlVisor: `${import.meta.env.VITE_API_IMAGES}${slide.URL}`,
           }))
@@ -70,15 +71,18 @@ export const AppsSection = () => {
   return (
     <section className='container mx-auto py-12'>
       <h2 className='mb-8 text-center text-3xl font-bold'>
-        Aplicaciones Móviles
+        {language === 'ES' ? 'Aplicaciones Móviles' : 'Mobile Apps'}
       </h2>
       <p className='mx-auto mb-8 max-w-2xl text-center'>
-        Escanee el código QR de las aplicaciones multiplataforma y descargue las
-        aplicaciones para Android.
+        {language === 'ES'
+          ? 'Escanee el código QR de las aplicaciones multiplataforma y descargue las aplicaciones para Android.'
+          : 'Scan the QR code of the multiplatform applications and download the applications for Android.'}
       </p>
       <div className='relative overflow-hidden'>
         <div
-          className='flex transition-transform duration-500 ease-in-out'
+          className={`flex transition-transform duration-500 ease-in-out ${
+            apps.length < 4 ? 'justify-center' : ''
+          }`}
           style={{
             transform: `translateX(-${currentIndex * (100 / itemsPerSlide)}%)`,
           }}
@@ -102,9 +106,11 @@ export const AppsSection = () => {
                   />
                 </div>
                 <div className='flex h-[calc(100%-12rem)] flex-col p-4'>
-                  <h3 className='mb-2 text-lg font-bold'>{item.title}</h3>
+                  <h3 className='mb-2 text-lg font-bold'>
+                    {language === 'ES' ? item.title : item.titleEn}
+                  </h3>
                   <p className='mb-4 flex-grow text-sm text-gray-600'>
-                    {item.description}
+                    {language === 'ES' ? item.description : item.descriptionEn}
                   </p>
                 </div>
               </div>

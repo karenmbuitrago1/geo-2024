@@ -10,7 +10,7 @@ type Slide = {
   descriptionEn: string;
 };
 
-export const HeroSlider = () => {
+export const HeroSlider = ({ language }: { language: 'ES' | 'EN' }) => {
   const [slides, setSlides] = useState<Array<Slide>>([]);
   const [currentSlide, setCurrentSlide] = useState<number>(0);
 
@@ -60,8 +60,12 @@ export const HeroSlider = () => {
           />
           <div className='absolute inset-0 bg-black bg-opacity-50'></div>
           <div className='container relative z-10 mx-auto flex h-full flex-col justify-center px-4 md:px-0'>
-            <h1 className='mb-4 text-4xl font-bold'>{slide.title}</h1>
-            <p className='max-w-2xl'>{slide.description}</p>
+            <h1 className='mb-4 text-4xl font-bold'>
+              {language === 'ES' ? slide.title : slide.titleEn}
+            </h1>
+            <p className='max-w-2xl'>
+              {language === 'ES' ? slide.description : slide.descriptionEn}
+            </p>
           </div>
         </div>
       ))}

@@ -7,6 +7,7 @@ import {
 
 interface MenuItem {
   name: string;
+  nameEn: string;
   COD_L2: string;
   COD_L3: string;
   iconClass: string;
@@ -17,13 +18,28 @@ interface CensusCard {
   cod3: string;
   cod4: string;
   title: string;
+  titleEn: string;
   image: string;
   tags: string[];
   urlVisor: string;
   description: string;
+  descriptionEn: string;
 }
 
-export const GeovisorsSection = () => {
+interface CategoryNames {
+  ES: {
+    economia: string;
+    territorio: string;
+    sociedad: string;
+  };
+  EN: {
+    economia: string;
+    territorio: string;
+    sociedad: string;
+  };
+}
+
+export const GeovisorsSection = ({ language }: { language: 'ES' | 'EN' }) => {
   const navigate = useNavigate();
   const [visibleCount, setVisibleCount] = useState(4);
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
@@ -32,6 +48,19 @@ export const GeovisorsSection = () => {
   const [geoServiceSecond, setGeoServiceSecond] = useState<CensusCard[]>([]);
   const [selectedSubItem, setSelectedSubItem] = useState<string | null>(null);
   const [activeMenuItem, setActiveMenuItem] = useState<string[]>(['Economía']);
+
+  const categoryNames = {
+    ES: {
+      economia: 'Economía',
+      territorio: 'Territorio',
+      sociedad: 'Sociedad',
+    },
+    EN: {
+      economia: 'Economy',
+      territorio: 'Territory',
+      sociedad: 'Society',
+    },
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -42,7 +71,9 @@ export const GeovisorsSection = () => {
             cod2: slide.COD_L2,
             cod3: slide.COD_L3,
             title: slide.NIVEL_03,
+            titleEn: slide.NIVEL_03_INGLES,
             description: slide.DESCRIPCION,
+            descriptionEn: slide.DESCRIPCION_INGLES,
             urlVisor: slide.URL,
             image: `${import.meta.env.VITE_API_IMAGES}${slide.IMAGEN_DESKTOP}`,
             tags: ['Etiqueta'],
@@ -51,6 +82,7 @@ export const GeovisorsSection = () => {
 
         const items: MenuItem[] = response.map((item: any) => ({
           name: item.NIVEL_03,
+          nameEn: item.NIVEL_03_INGLES,
           COD_L2: item.COD_L2,
           COD_L3: item.COD_L3,
           iconClass: item.ICONO,
@@ -78,7 +110,9 @@ export const GeovisorsSection = () => {
             cod3: slide.COD_L3,
             cod4: slide.COD_L4,
             title: slide.NIVEL_04,
+            titleEn: slide.NIVEL_04_INGLES,
             description: slide.DESCRIPCION,
+            descriptionEn: slide.DESCRIPCION_INGLES,
             image: `${import.meta.env.VITE_API_IMAGES}${slide.IMAGEN_DESKTOP}`,
             urlVisor: slide.URL,
           }))
@@ -109,46 +143,57 @@ export const GeovisorsSection = () => {
     >
       <div className='mx-auto max-w-7xl'>
         <div className='py-8 text-center'>
-          <h1 className='mb-2 text-4xl font-bold'>Geovisores</h1>
+          <h1 className='mb-2 text-4xl font-bold'>
+            {language === 'ES' ? 'Geovisores' : 'Geo-Viewers'}
+          </h1>
           <p className='text-gray-600'>
-            Consulte la gran variedad de geovisores para la visualización de
-            datos estadísticos de todo el territorio colombiano.
+            {language === 'ES'
+              ? 'Los Geovisores son herramientas de fácil uso y acceso, que permiten la consulta, visualización, análisis y descarga de información georreferenciada, a las cuales pueden acceder diferentes usuarios como investigadores, tomadores de decisiones, autoridades territoriales y ambientales y especialmente la comunidad en general.'
+              : 'Geo-Viewers are easy-to-use and accessible tools that allow the consultation, visualization, analysis, and download of georeferenced information, which can be accessed by different users such as researchers, decision-makers, territorial and environmental authorities, and especially the general community.'}
           </p>
         </div>
 
         <div className='container mx-auto flex flex-col md:flex-row px-4 py-8'>
           <div className='w-full md:w-1/4 pr-8 mb-8 md:mb-0'>
             <h2 className='my-4 text-base font-regular'>
-              Seleccione la información que quiera consultar
+              {language === 'ES'
+                ? 'Seleccione la información que quiera consultar'
+                : 'Choose the information you want to consult'}
             </h2>
-            {['Economía', 'Territorio', 'Sociedad'].map((category) => (
+            {Object.keys(categoryNames[language]).map((categoryKey) => (
               <div
-                key={category}
+                key={categoryKey}
                 className='mb-4 bg-white rounded-lg shadow-md py-2 px-4'
               >
                 <button
                   className='flex w-full items-center justify-between text-left font-medium'
                   onClick={() =>
                     setActiveMenuItem((prev) =>
-                      prev.includes(category)
-                        ? prev.filter((name) => name !== category)
-                        : [...prev, category]
+                      prev.includes(categoryKey)
+                        ? prev.filter((name) => name !== categoryKey)
+                        : [...prev, categoryKey]
                     )
                   }
                 >
-                  {category}
-                  {activeMenuItem.includes(category) ? (
+                  {
+                    categoryNames[language as keyof CategoryNames][
+                      categoryKey.toLowerCase() as keyof CategoryNames['ES']
+                    ]
+                  }
+
+                  {activeMenuItem.includes(categoryKey) ? (
                     <span className='DANE__Geovisor__icon__minus' />
                   ) : (
                     <span className='DANE__Geovisor__icon__plus' />
                   )}
                 </button>
-                {activeMenuItem.includes(category) && (
+                {activeMenuItem.includes(categoryKey) && (
                   <ul className='ml-4 mt-2 text-left'>
                     {menuItems
                       .filter((item) => {
-                        if (category === 'Economía') return item.COD_L2 === '2';
-                        if (category === 'Territorio')
+                        if (categoryKey === 'Economía')
+                          return item.COD_L2 === '2';
+                        if (categoryKey === 'Territorio')
                           return item.COD_L2 === '1';
                         return item.COD_L2 !== '2' && item.COD_L2 !== '1';
                       })
@@ -167,7 +212,7 @@ export const GeovisorsSection = () => {
                               setSelectedSubItem(item.COD_L3);
                             }}
                           >
-                            {item.name}
+                            {language === 'ES' ? item.name : item.nameEn}
                           </button>
                         </li>
                       ))}
@@ -179,8 +224,9 @@ export const GeovisorsSection = () => {
 
           <div className='w-full md:w-3/4'>
             <p className='mb-4 text-gray-600'>
-              Mostrando {visibleGeoServiceSecond.length} de{' '}
-              {filteredGeoServiceSecond.length} resultados
+              {language === 'ES'
+                ? `Mostrando ${visibleGeoServiceSecond.length} de ${filteredGeoServiceSecond.length} resultados`
+                : `Showing ${visibleGeoServiceSecond.length} of ${filteredGeoServiceSecond.length} results`}
             </p>
 
             <div className='space-y-4'>
@@ -200,9 +246,13 @@ export const GeovisorsSection = () => {
                       className='w-24 h-24 rounded-lg mr-4 object-cover'
                     />
                     <div>
-                      <h3 className='text-lg font-semibold'>{card.title}</h3>
+                      <h3 className='text-lg font-semibold'>
+                        {language === 'ES' ? card.title : card.titleEn}
+                      </h3>
                       <p className='mb-4 text-gray-600 line-clamp-2 text-sm'>
-                        {card.description}
+                        {language === 'ES'
+                          ? card.description
+                          : card.descriptionEn}
                       </p>
                     </div>
                   </div>
@@ -217,7 +267,7 @@ export const GeovisorsSection = () => {
                   onClick={() => setVisibleCount(visibleCount + 4)}
                   className='mt-6 px-4 py-2 text-primary hover:text-hover transition-colors'
                 >
-                  Cargar más ...
+                  {language === 'ES' ? 'Cargar más' : 'Load more'}
                 </button>
               </div>
             )}
@@ -230,7 +280,7 @@ export const GeovisorsSection = () => {
             onClick={handleClickAllGeovisores}
             className='hover:bg-hover h-10 bg-primary px-4 py-2 text-base text-white transition-colors'
           >
-            Ver todos
+            {language === 'ES' ? 'Ver todos' : 'See all'}
           </button>
         </div>
       </div>

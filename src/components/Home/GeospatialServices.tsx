@@ -1,13 +1,16 @@
-import { FC, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { newsSectionsService } from '../../services/geoServicesSection.service';
 
 interface ServiceItemProps {
   icono: string;
   title: string;
+  titleEn: string;
   urlVisor: string;
+  description: string;
+  descriptionEn: string;
 }
 
-export const GeospatialServices: FC = () => {
+export const GeospatialServices = ({ language }: { language: 'ES' | 'EN' }) => {
   const [geoService, setGeoService] = useState<ServiceItemProps[]>([]);
 
   useEffect(() => {
@@ -17,7 +20,9 @@ export const GeospatialServices: FC = () => {
         setGeoService(
           response.map((slide: any) => ({
             title: slide.NIVEL_02,
+            titleEn: slide.NIVEL_02_INGLES,
             description: slide.TEXTO,
+            descriptionEn: slide.TEXTO_INGLES,
             icono: slide.ICONO,
             image: `${import.meta.env.VITE_API_IMAGES}${slide.MEDIA}`,
             urlVisor: slide.URL,
@@ -40,12 +45,14 @@ export const GeospatialServices: FC = () => {
     >
       <div className='mx-auto max-w-7xl'>
         <h2 className='mb-2 text-center text-4xl font-bold'>
-          Servicios Geoespaciales
+          {language === 'ES'
+            ? 'Servicios Geoespaciales'
+            : 'Geospatial Services'}
         </h2>
         <p className='mb-12 text-center text-gray-600'>
-          El Geoportal es el ecosistema de servicios de mapas interactivos,
-          servicios de mapas web, catálogo de metadatos geográficos,
-          aplicaciones móviles, entre otros.
+          {language === 'ES'
+            ? 'El Geoportal es el ecosistema de servicios de mapas interactivos, servicios de mapas web, catálogo de metadatos geográficos, aplicaciones móviles, entre otros.'
+            : 'The Geoportal is the ecosystem of interactive map services, web map services, geographic metadata catalog, mobile applications, among others.'}
         </p>
         <div className='grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3'>
           {geoService.map((geoService, index) => (
@@ -61,7 +68,7 @@ export const GeospatialServices: FC = () => {
                 }}
               ></span>
               <h3 className='ml-4 text-lg font-semibold text-gray-800'>
-                {geoService.title}
+                {language === 'ES' ? geoService.title : geoService.titleEn}
               </h3>
             </div>
           ))}

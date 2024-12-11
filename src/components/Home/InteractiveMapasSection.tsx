@@ -14,7 +14,11 @@ type InteractiveMapSectionProps = {
 const ITEMS_PER_SLIDE_DEFAULT = 4;
 const ITEMS_PER_SLIDE_MOBILE = 1;
 
-export const InteractiveMapSection = () => {
+export const InteractiveMapSection = ({
+  language,
+}: {
+  language: 'ES' | 'EN';
+}) => {
   const [news, setNews] = useState<InteractiveMapSectionProps[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [itemsPerSlide, setItemsPerSlide] = useState(ITEMS_PER_SLIDE_DEFAULT);
@@ -54,17 +58,16 @@ export const InteractiveMapSection = () => {
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 768) {
-        // Cambia el tamaño según tu diseño
         setItemsPerSlide(ITEMS_PER_SLIDE_MOBILE);
       } else {
         setItemsPerSlide(ITEMS_PER_SLIDE_DEFAULT);
       }
     };
 
-    handleResize(); // Establecer el tamaño inicial
-    window.addEventListener('resize', handleResize); // Escuchar cambios de tamaño
+    handleResize();
+    window.addEventListener('resize', handleResize);
 
-    return () => window.removeEventListener('resize', handleResize); // Limpiar el listener
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   const handleClick = (urlVisor: string) => {
@@ -82,11 +85,12 @@ export const InteractiveMapSection = () => {
     <section className='bg-gray-100 px-4 py-16 sm:px-6 lg:px-8'>
       <div className='mx-auto max-w-7xl'>
         <h2 className='mb-8 text-center text-3xl font-bold'>
-          Mapas Interactivos
+          {language === 'ES' ? 'Mapas Interactivos' : 'Interactive Maps'}
         </h2>
         <p className='mx-auto mb-8 max-w-2xl text-center'>
-          Acceda a los mapa interactivos y aprenda más sobre el tema de su
-          interés.
+          {language === 'ES'
+            ? 'Acceda a los mapa interactivos y aprenda más sobre el tema de su interés.'
+            : 'Access interactive maps and learn more about the topic of your interest.'}
         </p>
         <div className='relative overflow-x-auto'>
           <div
@@ -110,9 +114,13 @@ export const InteractiveMapSection = () => {
                     />
                   </div>
                   <div className='flex h-[calc(100%-12rem)] flex-col p-4'>
-                    <h3 className='mb-2 text-lg font-bold'>{item.title}</h3>
+                    <h3 className='mb-2 text-lg font-bold'>
+                      {language === 'ES' ? item.title : item.titleEn}
+                    </h3>
                     <p className='mb-4 flex-grow text-sm text-gray-600'>
-                      {item.description}
+                      {language === 'ES'
+                        ? item.description
+                        : item.descriptionEn}
                     </p>
                   </div>
                 </div>
@@ -136,7 +144,7 @@ export const InteractiveMapSection = () => {
             onClick={handleClickAllMaps}
             className='hover:bg-hover h-10 bg-primary px-4 py-2 text-base text-white transition-colors'
           >
-            Ver todos
+            {language === 'ES' ? 'Ver todos' : 'See all'}
           </button>
         </div>
       </div>

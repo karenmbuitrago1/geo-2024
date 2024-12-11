@@ -2,10 +2,13 @@ import { useEffect } from 'react';
 import { LogoDane } from '../Atoms/LogoDane';
 import { LogoGeoportal } from '../Atoms/LogoGeoportal';
 import { getTodayFormattedDate } from '../../utils/date';
+import { useLanguageStore } from '../../utils/languageStore';
 
 import './subHeader.css';
 
 export const SubHeader = () => {
+  const { language, setLanguage } = useLanguageStore();
+
   useEffect(() => {
     if (!document.getElementById('google-pse-script')) {
       const script = document.createElement('script');
@@ -21,10 +24,21 @@ export const SubHeader = () => {
       <div className='flex flex-col md:flex-row items-center justify-between py-2'>
         <span className='text-gray-500'>{getTodayFormattedDate()}</span>
         <div className='flex gap-2 mt-2 md:mt-0'>
-          {/* <button className='bg-primary px-2 text-white'>EN</button> */}
-          <button className='bg-primary px-2 text-white'>ES</button>
+          <button
+            className={`px-2 ${language === 'EN' ? 'bg-primary text-white font-bold' : 'bg-white text-primary'} `}
+            onClick={() => setLanguage('EN')}
+          >
+            EN
+          </button>
+          <button
+            className={`px-2 ${language === 'ES' ? 'bg-primary text-white font-bold' : 'bg-white text-primary'}`}
+            onClick={() => setLanguage('ES')}
+          >
+            ES
+          </button>
         </div>
       </div>
+
       <div className='flex flex-col md:flex-row items-center justify-between h-20'>
         <div className='flex items-center h-10 md:w-2/3 gap-4'>
           <a

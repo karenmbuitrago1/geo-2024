@@ -1,4 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useLanguageStore } from './utils/languageStore';
+
 import { Footer } from './components/Footer';
 import { HeaderMain } from './components/Header/HeaderMain';
 import { HeroSlider } from './components/Home/HeroSlider';
@@ -11,19 +13,25 @@ import { InteractiveMapSection } from './components/Home/InteractiveMapasSection
 
 import { GeovisoresPage } from './components/Pages/GeovisoresPage';
 
-const HomePage = () => (
-  <div>
-    <HeroSlider />
-    <NewsSection />
-    <GeovisorsSection />
-    <GeospatialServices />
-    <InteractiveMapSection />
-    <AppsSection />
-    <AboutSection />
-  </div>
-);
+const HomePage = () => {
+  const { language } = useLanguageStore();
+
+  return (
+    <div>
+      <HeroSlider language={language} />
+      <NewsSection language={language} />
+      <GeovisorsSection language={language} />
+      <GeospatialServices language={language} />
+      <InteractiveMapSection language={language} />
+      <AppsSection language={language} />
+      <AboutSection language={language} />
+    </div>
+  );
+};
 
 const App = () => {
+  const { language } = useLanguageStore();
+
   return (
     <Router>
       <div className='min-h-screen flex flex-col'>
@@ -42,7 +50,7 @@ const App = () => {
           </Routes>
         </main>
 
-        <Footer />
+        <Footer language={language} />
       </div>
     </Router>
   );
