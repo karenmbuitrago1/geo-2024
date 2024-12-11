@@ -4,9 +4,11 @@ import {
   geovisoresServiceSecond,
 } from '../../services/geovisoresSection';
 import SliderTop from './SliderPages';
+import { useLanguageStore } from '../../utils/languageStore';
 
 interface MenuItem {
   name: string;
+  nameEn: string;
   COD_L2: string;
   COD_L3: string;
   iconClass: string;
@@ -19,11 +21,14 @@ interface CensusCard {
   title: string;
   image: string;
   tags: string[];
+  titleEn: string;
   urlVisor: string;
   description: string;
+  descriptionEn: string;
 }
 
 export const GeovisoresPage = () => {
+  const { language } = useLanguageStore();
   const [visibleCount, setVisibleCount] = useState(16);
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
@@ -42,8 +47,10 @@ export const GeovisoresPage = () => {
             cod2: slide.COD_L2,
             cod3: slide.COD_L3,
             title: slide.NIVEL_03,
-            description: slide.DESCRIPCION,
             urlVisor: slide.URL,
+            description: slide.DESCRIPCION,
+            titleEn: slide.NIVEL_03_INGLES,
+            descriptionEn: slide.DESCRIPCION_INGLES,
             image: `${import.meta.env.VITE_API_IMAGES}${slide.IMAGEN_DESKTOP}`,
             tags: ['Etiqueta'],
           }))
@@ -54,6 +61,7 @@ export const GeovisoresPage = () => {
           COD_L2: item.COD_L2,
           COD_L3: item.COD_L3,
           iconClass: item.ICONO,
+          nameEn: item.NIVEL_03_INGLES,
         }));
 
         setMenuItems(items);
@@ -79,6 +87,8 @@ export const GeovisoresPage = () => {
             cod4: slide.COD_L4,
             title: slide.NIVEL_04,
             description: slide.DESCRIPCION,
+            titleEn: slide.NIVEL_04_INGLES,
+            descriptionEn: slide.DESCRIPCION_INGLES,
             image: `${import.meta.env.VITE_API_IMAGES}${slide.IMAGEN_DESKTOP}`,
             urlVisor: slide.URL,
           }))
@@ -138,34 +148,44 @@ export const GeovisoresPage = () => {
 
   return (
     <div>
-      <SliderTop />
+      <SliderTop language={language} />
       <section
         id='geovisores'
         className='bg-gray-100 px-4 py-8 sm:px-6 lg:px-8'
       >
         <div className='mx-auto max-w-7xl'>
           <div className='py-8 text-center'>
-            <h1 className='mb-2 text-4xl font-bold'>Geovisores</h1>
+            <h1 className='mb-2 text-4xl font-bold'>
+              {language === 'ES' ? 'Geovisores' : 'Geoviewers'}
+            </h1>
             <p className='text-gray-600'>
-              Consulte la gran variedad de geovisores para la visualización de
-              datos estadísticos de todo el territorio colombiano.
+              {language === 'ES'
+                ? 'Consulte la gran variedad de geovisores para la visualización de datos estadísticos de todo el territorio colombiano.'
+                : 'Find wide variety of geoviewers for the visualization of statistical data from all over the Colombian territory.'}
             </p>
           </div>
 
-          {/* Barra de búsqueda */}
           <div className='mb-6'>
             <div className='flex justify-center items-center mb-6'>
-              <p className='text-lg text-gray-700 mr-4'>Buscar:</p>
+              <p className='text-lg text-gray-700 mr-4'>
+                {language === 'ES' ? 'Buscar:' : 'Search:'}
+              </p>
               <label
                 htmlFor='search'
                 className='sr-only'
               >
-                Buscar geovisores...
+                {language === 'ES'
+                  ? 'Buscar geovisores...'
+                  : 'Search geoviewers...'}
               </label>
               <input
                 type='text'
                 id='search'
-                placeholder='Escribe una palabra para realizar una búsqueda de geovisores...'
+                placeholder={
+                  language === 'ES'
+                    ? 'Escribe una palabra para realizar una búsqueda de geovisores...'
+                    : 'Write a word to search in geoviewers...'
+                }
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className='w-1/2 p-2 border border-gray-300 rounded-2xl'
@@ -173,7 +193,6 @@ export const GeovisoresPage = () => {
             </div>
           </div>
 
-          {/* Botones de categorías principales */}
           <div className='flex sm:justify-start md:justify-center overflow-x-auto space-x-4 mb-6 scrollbar-hide'>
             {['Todos', 'Economía', 'Territorio', 'Sociedad'].map((category) => (
               <button
@@ -190,7 +209,6 @@ export const GeovisoresPage = () => {
             ))}
           </div>
 
-          {/* Subcategorías */}
           <div className='mb-8 flex justify-center overflow-x-auto space-x-4 scrollbar-hide'>
             {activeCategory !== 'Todos' &&
               menuItems
@@ -210,19 +228,18 @@ export const GeovisoresPage = () => {
                     }`}
                     onClick={() => setSelectedSubItem(item.COD_L3)}
                   >
-                    {item.name}
+                    {language === 'ES' ? item.name : item.nameEn}
                   </button>
                 ))}
           </div>
 
-          {/* Cards de los geovisores */}
           <div className='w-full'>
             <p className='mb-4 text-gray-600'>
-              Mostrando {visibleGeoServiceSecond.length} de{' '}
-              {filteredGeoServiceSecond.length} resultados
+              {language === 'ES'
+                ? `Mostrando ${visibleGeoServiceSecond.length} de ${filteredGeoServiceSecond.length} resultados`
+                : `Showing ${visibleGeoServiceSecond.length} of ${filteredGeoServiceSecond.length} results`}
             </p>
 
-            {/* Contenedor de las tarjetas con flexbox */}
             <ul className='flex flex-wrap gap-4 justify-start'>
               {visibleGeoServiceSecond.map((card, index) => (
                 <li
@@ -240,9 +257,13 @@ export const GeovisoresPage = () => {
                       className='w-32 h-32 rounded-lg mr-4 object-cover'
                     />
                     <div>
-                      <h3 className='text-lg font-semibold'>{card.title}</h3>
+                      <h3 className='text-lg font-semibold'>
+                        {language === 'ES' ? card.title : card.titleEn}
+                      </h3>
                       <p className='mb-4 text-gray-600 line-clamp-3 text-sm'>
-                        {card.description}
+                        {language === 'ES'
+                          ? card.description
+                          : card.descriptionEn}
                       </p>
                     </div>
                   </div>
@@ -257,7 +278,7 @@ export const GeovisoresPage = () => {
                   onClick={() => setVisibleCount(visibleCount + 4)}
                   className='mt-6 px-4 py-2 text-primary hover:text-hover transition-colors'
                 >
-                  Cargar más ...
+                  {language === 'ES' ? 'Cargar más' : 'Load more'}
                 </button>
               </div>
             )}

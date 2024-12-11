@@ -1,4 +1,4 @@
-const SliderTop = () => {
+const SliderTop = ({ language }: { language: 'ES' | 'EN' }) => {
   const imageUrlDesktop = `${import.meta.env.VITE_API_IMAGES}/src/images/departamento/geovisores/bannerSuperiorDesktop-0001.webp`;
   const imageUrlMobile = `${import.meta.env.VITE_API_IMAGES}/src/images/departamento/geovisores/bannerSuperiorMobile-0001.webp`;
 
@@ -40,15 +40,13 @@ const SliderTop = () => {
             itemProp='name'
             className='text-xl font-semibold text-left'
           >
-            Geovisores
+            {language === 'ES' ? 'Geovisores' : 'Geoviewers'}
           </h1>
         </div>
         <p className='w-[60%] text-base text-left hidden md:block'>
-          Los Geovisores son herramientas de fácil uso y acceso, que permiten la
-          consulta, visualización, análisis y descarga de información
-          georreferenciada, a las cuales pueden acceder diferentes usuarios como
-          investigadores, tomadores de decisiones, autoridades territoriales y
-          ambientales y especialmente la comunidad en general.
+          {language === 'ES'
+            ? 'Los Geovisores son herramientas de fácil uso y acceso, que permiten la consulta, visualización, análisis y descarga de información georreferenciada, a las cuales pueden acceder diferentes usuarios como investigadores, tomadores de decisiones, autoridades territoriales y ambientales y especialmente la comunidad en general.'
+            : 'The Geoviewers are easy-to-use and access tools that allow the consultation, visualization, analysis, and download of georeferenced information, which can be accessed by different users such as researchers, decision-makers, territorial and environmental authorities, and especially the community in general.'}
         </p>
       </div>
     </div>
